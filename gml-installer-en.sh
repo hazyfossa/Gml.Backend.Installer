@@ -8,6 +8,7 @@ fi
 
 
 #!/bin/bash
+set -eo pipefail
 
 ## Helper functions
 
@@ -23,6 +24,7 @@ main() {
     # Check for git installation
     if ! command_exists git
     then
+        set +e
         echo "[Git] Git not found. Attempting to install..."
         apt-get install -y git
         if [ $? -eq 0 ]
@@ -39,6 +41,7 @@ main() {
     # Check for jq installation
     if ! command_exists jq
     then
+        set +e
         echo "[jq] jq not found. Attempting to install..."
         apt-get install -y jq
         if [ $? -eq 0 ]
@@ -55,6 +58,7 @@ main() {
     # Check for curl installation
     if ! command_exists curl
     then
+        set +e
         echo "[Curl] Curl not found. Attempting to install..."
         apt-get install -y curl
         if [ $? -eq 0 ]
@@ -71,6 +75,7 @@ main() {
     # Check for docker.io installation
     if ! command_exists docker
     then
+        set +e
         echo "[Docker] Docker not found. Attempting to install..."
         apt-get install -y docker.io
         if [ $? -eq 0 ]
@@ -87,6 +92,7 @@ main() {
     # Check for Docker Compose installation
     if ! command_exists docker-compose
     then
+        set +e
         echo "[Docker-Compose] Docker Compose not found. Attempting to install..."
         DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
         mkdir -p $DOCKER_CONFIG/cli-plugins

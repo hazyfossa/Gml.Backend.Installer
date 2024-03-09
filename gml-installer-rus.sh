@@ -8,6 +8,7 @@ fi
 
 
 #!/bin/bash
+set -eo pipefail
 
 ## Вспомогательные функции
 
@@ -23,7 +24,8 @@ main() {
     # Проверка установки git
     if ! command_exists git
     then
-        echo "[Git] Git не найден. Попытка установить..."
+        set +e
+        echo "[Git] Git not found. Attempting to install..."
         apt-get install -y git
         if [ $? -eq 0 ]
         then
@@ -39,7 +41,8 @@ main() {
     # Проверка установки jq
     if ! command_exists jq
     then
-        echo "[jq] jq не найден. Попытка установить..."
+        set +e
+        echo "[jq] jq not found. Attempting to install..."
         apt-get install -y jq
         if [ $? -eq 0 ]
         then
@@ -55,7 +58,8 @@ main() {
     # Проверка установки curl
     if ! command_exists curl
     then
-        echo "[Curl] Curl не найден. Попытка установить..."
+        set +e
+        echo "[Curl] Curl not found. Attempting to install..."
         apt-get install -y curl
         if [ $? -eq 0 ]
         then
@@ -71,7 +75,8 @@ main() {
     # Проверка установки docker.io
     if ! command_exists docker
     then
-        echo "[Docker] Docker не найден. Попытка установить..."
+        set +e
+        echo "[Docker] Docker not found. Attempting to install..."
         apt-get install -y docker.io
         if [ $? -eq 0 ]
         then
@@ -87,7 +92,8 @@ main() {
     # Проверка и установка Docker Compose
     if ! command_exists docker-compose
     then
-        echo "[Docker-Compose] Docker Compose не найден. Попытка установить..."
+        set +e
+        echo "[Docker-Compose] Docker Compose not found. Attempting to install..."
         DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
         mkdir -p $DOCKER_CONFIG/cli-plugins
         curl -SL https://github.com/docker/compose/releases/download/v2.24.7/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
