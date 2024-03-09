@@ -9,8 +9,14 @@ fi
 
 #!/bin/bash
 
+# Check if required command is available
+command_exists() {
+	command -v "$@" > /dev/null 2>&1
+}
+
+
 # Check for git installation
-if ! command -v git > /dev/null
+if ! command_exists git
 then
     echo "[Git] Git not found. Attempting to install..."
     apt-get install -y git
@@ -26,7 +32,7 @@ else
 fi
 
 # Check for jq installation
-if ! command -v jq > /dev/null
+if ! command_exists jq
 then
     echo "[jq] jq not found. Attempting to install..."
     apt-get install -y jq
@@ -42,7 +48,7 @@ else
 fi
 
 # Check for curl installation
-if ! command -v curl > /dev/null
+if ! command_exists curl
 then
     echo "[Curl] Curl not found. Attempting to install..."
     apt-get install -y curl
@@ -57,24 +63,8 @@ else
     echo "[Curl] Installed"
 fi
 
-# Check for wget installation
-if ! command -v wget > /dev/null
-then
-    echo "[Wget] Wget not found. Attempting to install..."
-    apt-get install -y wget
-    if [ $? -eq 0 ]
-    then
-        echo "[Wget] Installation successful"
-    else
-        echo "[Wget] Failed to install Wget. Please install it manually."
-        exit 1
-    fi
-else
-    echo "[Wget] Installed"
-fi
-
 # Check for docker.io installation
-if ! command -v docker > /dev/null
+if ! command_exists docker
 then
     echo "[Docker] Docker not found. Attempting to install..."
     apt-get install -y docker.io
@@ -90,7 +80,7 @@ else
 fi
 
 # Check for Docker Compose installation
-if ! command -v docker-compose > /dev/null
+if ! command_exists docker-compose
 then
     echo "[Docker-Compose] Docker Compose not found. Attempting to install..."
     DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}

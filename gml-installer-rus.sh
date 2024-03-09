@@ -9,8 +9,14 @@ fi
 
 #!/bin/bash
 
+# Проверка наличия необходимой команды
+command_exists() {
+	command -v "$@" > /dev/null 2>&1
+}
+
+
 # Проверка установки git
-if ! command -v git > /dev/null
+if ! command_exists git
 then
     echo "[Git] Git не найден. Попытка установить..."
     apt-get install -y git
@@ -26,7 +32,7 @@ else
 fi
 
 # Проверка установки jq
-if ! command -v jq > /dev/null
+if ! command_exists jq
 then
     echo "[jq] jq не найден. Попытка установить..."
     apt-get install -y jq
@@ -42,7 +48,7 @@ else
 fi
 
 # Проверка установки curl
-if ! command -v curl > /dev/null
+if ! command_exists curl
 then
     echo "[Curl] Curl не найден. Попытка установить..."
     apt-get install -y curl
@@ -57,24 +63,8 @@ else
     echo "[Curl] Установлен"
 fi
 
-# Проверка установки wget
-if ! command -v wget > /dev/null
-then
-    echo "[Wget] Wget не найден. Попытка установить..."
-    apt-get install -y wget
-    if [ $? -eq 0 ]
-    then
-        echo "[Wget] Успешно установлен"
-    else
-        echo "[Wget] Не удалось установить Wget. Пожалуйста, установите его вручную."
-        exit 1
-    fi
-else
-    echo "[Wget] Установлен"
-fi
-
 # Проверка установки docker.io
-if ! command -v docker > /dev/null
+if ! command_exists docker
 then
     echo "[Docker] Docker не найден. Попытка установить..."
     apt-get install -y docker.io
@@ -90,7 +80,7 @@ else
 fi
 
 # Проверка и установка Docker Compose
-if ! command -v docker-compose > /dev/null
+if ! command_exists docker-compose
 then
     echo "[Docker-Compose] Docker Compose не найден. Попытка установить..."
     DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
